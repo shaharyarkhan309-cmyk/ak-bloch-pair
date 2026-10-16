@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AK BLOCH — WhatsApp Pairing</title>
+<meta name="description" content="AK BLOCH bot ke liye apna WhatsApp number pair karein — official pairing code hasil karein." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, #06182e 0%, #0a2a52 50%, #0d3b73 100%);
+    color: #eaf3ff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 16px 48px;
+  }
+  .wrap { width: 100%; max-width: 560px; }
+  header.hero {
+    text-align: center;
+    margin: 32px 0 24px;
+  }
+  .logo {
+    font-size: 52px;
+    filter: drop-shadow(0 0 18px rgba(77,163,255,.6));
+  }
+  h1 {
+    font-size: 2.4rem;
+    letter-spacing: 4px;
+    margin-top: 8px;
+    background: linear-gradient(90deg, #7cc0ff, #2f8cff, #9fd6ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .tagline { color: #a9c8ec; margin-top: 10px; font-size: 1rem; line-height: 1.6; }
+  .card {
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(124,192,255,.25);
+    border-radius: 18px;
+    padding: 26px 22px;
+    margin-top: 20px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 12px 40px rgba(0,0,0,.35);
+  }
+  .step-label {
+    display: inline-block;
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #7cc0ff;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  h2 { font-size: 1.25rem; margin-bottom: 14px; }
+  p.desc { color: #b9d2f2; font-size: .95rem; line-height: 1.7; margin-bottom: 16px; }
+  input[type="tel"] {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 1.1rem;
+    border-radius: 12px;
+    border: 2px solid rgba(124,192,255,.35);
+    background: rgba(0,0,0,.3);
+    color: #fff;
+    outline: none;
+    letter-spacing: 1px;
+  }
+  input[type="tel"]:focus { border-color: #4da3ff; }
+  .hint { font-size: .8rem; color: #8fb3dd; margin-top: 8px; }
+  button {
+    width: 100%;
+    margin-top: 16px;
+    padding: 15px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    background: linear-gradient(90deg, #1f7aec, #4da3ff);
+    color: #fff;
+    transition: transform .12s ease, opacity .12s ease;
+  }
+  button:hover:not(:disabled) { transform: translateY(-1px); }
+  button:disabled { opacity: .55; cursor: wait; }
+  button.secondary {
+    background: rgba(124,192,255,.15);
+    border: 1px solid rgba(124,192,255,.4);
+    margin-top: 10px;
+  }
+  #codeBox {
+    display: none;
+    text-align: center;
+    margin-top: 6px;
+  }
+  #pairCode {
+    font-family: 'Courier New', monospace;
+    font-size: 2.6rem;
+    font-weight: 800;
+    letter-spacing: 10px;
+    color: #fff;
+    background: rgba(0,0,0,.45);
+    border: 2px dashed #4da3ff;
+    border-radius: 14px;
+    padding: 18px 10px 18px 20px;
+    margin: 12px 0;
+    user-select: all;
+  }
+  .expire-note { color: #ffcf7c; font-size: .85rem; margin-top: 6px; }
+  #countdown { font-weight: 700; }
+  .error {
+    display: none;
+    margin-top: 14px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: rgba(255,90,90,.14);
+    border: 1px solid rgba(255,120,120,.5);
+    color: #ffc9c9;
+    font-size: .9rem;
+    line-height: 1.6;
+  }
+  ol.steps { margin: 6px 0 0 20px; color: #c4dbf7; line-height: 2; font-size: .95rem; }
+  ol.steps b { color: #fff; }
+  .grid { display: grid; gap: 12px; margin-top: 14px; }
+  .how {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(124,192,255,.2);
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: .92rem;
+    line-height: 1.65;
+    color: #c4dbf7;
+  }
+  .how b { color: #7cc0ff; display: block; margin-bottom: 4px; font-size: 1rem; }
+  details {
+    margin-top: 10px;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(124,192,255,.2);
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: .92rem;
+  }
+  summary { cursor: pointer; font-weight: 700; color: #9fd0ff; }
+  details p { margin-top: 8px; color: #c4dbf7; line-height: 1.7; }
+  footer {
+    margin-top: 28px;
+    text-align: center;
+    color: #7d9cc7;
+    font-size: .8rem;
+    line-height: 1.8;
+    max-width: 560px;
+  }
+  footer .warn { color: #ffcf7c; }
+  @media (max-width: 480px) {
+    h1 { font-size: 1.9rem; }
+    #pairCode { font-size: 2rem; letter-spacing: 6px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="logo">⚡</div>
+    <h1>AK BLOCH</h1>
+    <p class="tagline">Apne WhatsApp ko <b>AK BLOCH</b> bot se connect karein.<br />Sirf number likhein, pairing code hasil karein — bas!</p>
+  </header>
+
+  <!-- STEP 1: number -->
+  <section class="card" id="step1">
+    <span class="step-label">Step 1</span>
+    <h2>Apna WhatsApp number likhein</h2>
+    <p class="desc">Wo number likhein jis par bot chalana hai. Country code zaroor shamil karein.</p>
+    <input type="tel" id="phone" placeholder="923001234567" inputmode="numeric" autocomplete="tel" />
+    <div class="hint">Misaal: Pakistan ke liye 92 ke saath — 923001234567</div>
+    <button id="genBtn" onclick="generateCode()">Code Hasil Karein</button>
+    <div class="error" id="errBox"></div>
+  </section>
+
+  <!-- STEP 2: code -->
+  <section class="card" id="codeBox">
+    <span class="step-label">Step 2</span>
+    <h2>Aapka pairing code</h2>
+    <p class="desc">Ye code WhatsApp mein enter karein. Neeche copy ka button bhi hai.</p>
+    <div id="pairCode">--------</div>
+    <button class="secondary" onclick="copyCode()">📋 Code Copy Karein</button>
+    <p class="expire-note">⏳ Code jald expire ho jata hai — <span id="countdown">90</span> second ke andar WhatsApp mein enter kar lein!</p>
+  </section>
+
+  <!-- STEP 3: instructions -->
+  <section class="card">
+    <span class="step-label">Step 3</span>
+    <h2>WhatsApp mein code enter karein</h2>
+    <ol class="steps">
+      <li>Apne phone par <b>WhatsApp</b> kholein</li>
+      <li><b>Settings → Linked devices</b> mein jayein</li>
+      <li><b>"Link with phone number"</b> par tap karein</li>
+      <li>Upar wala <b>code enter</b> karke confirm karein</li>
+    </ol>
+    <p class="desc" style="margin-top:14px; margin-bottom:0;">Code enter karte hi aapka number AK BLOCH bot se connect ho jayega. ✅</p>
+  </section>
+
+  <!-- How it works -->
+  <section class="card">
+    <span class="step-label">Maloomat</span>
+    <h2>Ye kaam kaise karta hai?</h2>
+    <div class="grid">
+      <div class="how"><b>1. Number likhein</b>Upar apna WhatsApp number likh kar button dabayein.</div>
+      <div class="how"><b>2. Code milta hai</b>Ye website WhatsApp se official pairing code mangwa kar aapko dikhati hai.</div>
+      <div class="how"><b>3. WhatsApp mein enter karein</b>Linked devices mein "Link with phone number" se code lagayein.</div>
+      <div class="how"><b>4. Bot tayyar!</b>Pairing mukammal — ab AK BLOCH bot aapke number par active hai.</div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="card">
+    <span class="step-label">Sawal Jawab</span>
+    <h2>Aksar puche gaye sawalat</h2>
+    <details>
+      <summary>Kya ye mehfooz (safe) hai?</summary>
+      <p>Pairing ka tareeqa WhatsApp ka official hai. Lekin yaad rahe: AK BLOCH ek unofficial bot hai, is liye WhatsApp number ban bhi kar sakta hai. Hamesha <b>secondary number</b> istemal karein, apna main number nahi.</p>
+    </details>
+    <details>
+      <summary>Code kaam nahi kar raha, kya karun?</summary>
+      <p>Pairing code thodi dair mein expire ho jata hai. Page refresh karke <b>naya code</b> bana lein aur foran WhatsApp mein enter karein.</p>
+    </details>
+    <details>
+      <summary>Kya mera number save rakha jayega?</summary>
+      <p>Nahi. Code banane ke liye jo temporary session banta hai wo chand minute baad <b>khud delete</b> ho jata hai. Aapka number kahin store nahi hota.</p>
+    </details>
+    <details>
+      <summary>Kya is ki koi fees hai?</summary>
+      <p>Bilkul nahi — ye service <b>muft</b> hai.</p>
+    </details>
+  </section>
+
+  <footer>
+    <div>⚡ <b>AK BLOCH</b> — Pairing Service</div>
+    <div class="warn">⚠️ Unofficial WhatsApp bot hai — ban ka khatra hota hai, secondary number istemal karein.</div>
+  </footer>
+
+</div>
+
+<script>
+  const phoneInput = document.getElementById('phone');
+  const genBtn = document.getElementById('genBtn');
+  const errBox = document.getElementById('errBox');
+  const codeBox = document.getElementById('codeBox');
+  const pairCodeEl = document.getElementById('pairCode');
+  const countdownEl = document.getElementById('countdown');
+  let countdownTimer = null;
+
+  function showError(msg) {
+    errBox.textContent = msg;
+    errBox.style.display = 'block';
+  }
+  function hideError() {
+    errBox.style.display = 'none';
+  }
+
+  function startCountdown(seconds) {
+    clearInterval(countdownTimer);
+    let left = seconds;
+    countdownEl.textContent = left;
+    countdownTimer = setInterval(() => {
+      left -= 1;
+      if (left <= 0) {
+        clearInterval(countdownTimer);
+        countdownEl.textContent = '0 — naya code bana lein';
+      } else {
+        countdownEl.textContent = left;
+      }
+    }, 1000);
+  }
+
+  async function generateCode() {
+    hideError();
+    const phone = phoneInput.value.trim();
+    if (!phone) {
+      showError('Pehle apna WhatsApp number likhein.');
+      return;
+    }
+    genBtn.disabled = true;
+    genBtn.textContent = 'Code ban raha hai... ⏳';
+    try {
+      const res = await fetch('/api/pair', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Kuch ghalat ho gaya.');
+      // pretty-print: ABCD-EFGH
+      const raw = String(data.code).replace(/[^A-Za-z0-9]/g, '');
+      pairCodeEl.textContent = raw.length === 8
+        ? raw.slice(0, 4) + '-' + raw.slice(4)
+        : data.code;
+      codeBox.style.display = 'block';
+      codeBox.scrollIntoView({ behavior: 'smooth' });
+      startCountdown(90);
+    } catch (e) {
+      showError(e.message || 'Code nahi ban saka. Dobara koshish karein.');
+    } finally {
+      genBtn.disabled = false;
+      genBtn.textContent = 'Code Hasil Karein';
+    }
+  }
+
+  function copyCode() {
+    const text = pairCodeEl.textContent.replace(/-/g, '');
+    const done = () => {
+      pairCodeEl.style.borderColor = '#4dff88';
+      setTimeout(() => (pairCodeEl.style.borderColor = '#4da3ff'), 1500);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+    } else {
+      fallbackCopy(text, done);
+    }
+  }
+  function fallbackCopy(text, done) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); done(); } catch (_) {}
+    document.body.removeChild(ta);
+  }
+
+  phoneInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') generateCode();
+  });
+</script>
+</body>
+</html>
