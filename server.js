@@ -123,7 +123,16 @@ async function requestPairingCode(phone) {
 
 // ---- routes ----
 app.use(express.json({ limit: '10kb' }));
+// Static files: works whether index.html is in public/ or uploaded flat at root
+// (mobile uploads sometimes flatten folders — this keeps the site working either way)
 app.use(express.static(path.join(__dirname, 'public')));
+app.get('/', (_req, res) => {
+  const p1 = path.join(__dirname, 'public', 'index.html');
+  const p2 = path.join(__dirname, 'index.html');
+  try {
+    res.sendFile(fs.existsSync(p1) ? p1 : p2);
+  } catch { res.status(404).send('index.html not found'); }
+});
 
 app.get('/api/health', (_req, res) => {
   res.json({ ok: true });
